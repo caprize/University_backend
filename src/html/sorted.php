@@ -1,7 +1,7 @@
 <?php
 
 $ar = htmlspecialchars($_GET["code"]);
-$a = array_map('intval', explode(',', $ar));
+$a = explode(',', $ar);
 
 function quick_sort($my_array)
  {
