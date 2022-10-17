@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS appDB;
 CREATE USER IF NOT EXISTS 'user'@'%' IDENTIFIED BY 'password';
-GRANT SELECT,UPDATE,INSERT ON appDB.* TO 'user'@'%';
+GRANT SELECT,UPDATE,INSERT,DELETE ON appDB.* TO 'user'@'%';
 FLUSH PRIVILEGES;
 
 USE appDB;
@@ -18,15 +18,15 @@ WHERE NOT EXISTS (
 ) LIMIT 1;
 
 INSERT INTO users (name, password)
-SELECT * FROM (SELECT 'Bob', 'Marley') AS tmp
+SELECT * FROM (SELECT 'Bob', 'Bob1') AS tmp
 WHERE NOT EXISTS (
-    SELECT name FROM users WHERE name = 'Bob' AND password = 'Marley'
+    SELECT name FROM users WHERE name = 'Bob' AND password = 'Bob1'
 ) LIMIT 1;
 
 INSERT INTO users (name, password)
-SELECT * FROM (SELECT 'Alex', 'Rover') AS tmp
+SELECT * FROM (SELECT 'Rover', 'Rover1') AS tmp
 WHERE NOT EXISTS (
-    SELECT name FROM users WHERE name = 'Alex' AND password= 'Rover'
+    SELECT name FROM users WHERE name = 'Rover' AND password= 'Rover1'
 ) LIMIT 1;
 
 INSERT INTO users (name, password)
@@ -63,3 +63,16 @@ SELECT * FROM (SELECT 'WarandPiece', 'Faty',1) AS tmp
 WHERE NOT EXISTS (
     SELECT title FROM books WHERE title = 'WarandPiece' AND author = 'Faty'
 ) LIMIT 1;
+
+
+USE appDB;
+CREATE TABLE IF NOT EXISTS orders (
+  ID INT(11) NOT NULL AUTO_INCREMENT,
+  book_id INT(20) NOT NULL,
+  date_end TEXT(20) NOT NULL,
+  user_id INT(20) NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+INSERT INTO orders 
+VALUES (1,1,"2022.05.14",1);
