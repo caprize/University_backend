@@ -17,7 +17,7 @@ services:
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 1s
-      retries: 10
+      retries: 5
   apache:
     build: './php-apache'
     volumes:
@@ -38,6 +38,27 @@ services:
       - 8000:80
     depends_on:
       - apache
-  
+  redis:
+    image: redis
+    command: ["sh", "-c", "exec redis-server"]
+  mongo:
+    image: mongo
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+  mongo-express:
+    image: mongo-express
+    container_name: mongoex
+    ports:
+      - 8081:8081     
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
+    links:
+      - mongo
+    depends_on:
+      - mongo
 volumes:
   db_volume:

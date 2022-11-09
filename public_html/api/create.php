@@ -19,12 +19,14 @@ $items = new Orders($db);
  
 ini_set("allow_url_fopen", true);
 
-
+$redis = new Redis([
+    'host' => '127.0.0.1',
+    'port' => 6379,
+    'connectTimeout' => 2.5,
+]);
 
 $data = json_decode(file_get_contents('php://input'));
-echo $data->book_id;
-echo $data->date_end;
-echo $data->user_id;
+
 if(!empty($data->date_end)){  
     echo "here";  
 

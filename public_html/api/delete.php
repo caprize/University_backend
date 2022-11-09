@@ -13,10 +13,11 @@ $db = $database->getConnection();
  
 $items = new Orders($db);
  
-$data = json_decode(file_get_contents("php://input"));
+// $data = json_decode(file_get_contents("php://input"));
+$id = $_GET['id'];
 
-if(!empty($data->id)) {
-	$items->id = $data->id;
+if(!empty($id)) {
+	$items->id = $id;
 	if($items->delete()){    
 		http_response_code(200); 
 		echo json_encode(array("message" => "Item was deleted."));
